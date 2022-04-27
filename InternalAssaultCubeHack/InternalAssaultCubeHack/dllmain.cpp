@@ -69,41 +69,8 @@ HMODULE GetModule(const std::wstring& processName, HANDLE& pHandle)
 	return nullptr;
 }
 
-void hackThread(HMODULE hModule);
-
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-                     )
+void hackThread()
 {
-    switch (ul_reason_for_call)
-    {
-    case DLL_PROCESS_ATTACH:
-		DisableThreadLibraryCalls(hModule);		//disables attach and detach notifications
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)hackThread, hModule, NULL, NULL);
-    case DLL_THREAD_ATTACH:
-		//DisableThreadLibraryCalls(hModule);		//disables attach and detach notifications
-		//CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)hackThread, NULL, NULL, NULL);
-    case DLL_THREAD_DETACH:
-    case DLL_PROCESS_DETACH:
-        break;
-    }
-    return TRUE;
-}
-
-void hackThread(HMODULE hModule)
-{
-	//Set console use for dll
-	//AllocConsole();
-	//freopen("CONOUT$", "w", stdout);
-	//freopen("/my/newstdin", "r", stdin);
-
-	//std::cout << "Debug log test" << std::endl;
-	//int x;
-	//std::cin >> x;
-
-
-
 	HANDLE pHandle = GetProcessByName(L"ac_client.exe");
 	if (!pHandle)
 	{
@@ -137,9 +104,23 @@ void hackThread(HMODULE hModule)
 
 	std::wstring stemp = std::wstring(s.begin(), s.end());
 	MessageBox(NULL, stemp.c_str(), L"COMServer", MB_OK | MB_SETFOREGROUND);
+}
 
-
-
-	std::cout << *health;
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+		DisableThreadLibraryCalls(hModule);		//disables attach and detach notifications
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)hackThread, NULL, NULL, NULL);
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
 }
 
