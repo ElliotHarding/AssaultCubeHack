@@ -69,6 +69,12 @@ HMODULE GetModule(const std::wstring& processName, HANDLE& pHandle)
 	return nullptr;
 }
 
+void debugMessage(std::string message)
+{
+	std::wstring wMessage = std::wstring(message.begin(), message.end());
+	MessageBox(NULL, wMessage.c_str(), L"Debug", MB_OK | MB_SETFOREGROUND);
+}
+
 void hackThread()
 {
 	HANDLE pHandle = GetProcessByName(L"ac_client.exe");
@@ -80,30 +86,13 @@ void hackThread()
 	DWORD applicationBaseAddress = (DWORD)GetModule(L"ac_client.exe", pHandle);
 	CloseHandle(pHandle);
 
-	MessageBox(NULL, L"Com Object Function Called", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
 	//Get local player & their health
 	DWORD* localPlayer = (DWORD*)(applicationBaseAddress + 0x0018AC00);
-	MessageBox(NULL, L"Com Object Function Called 2", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
 	DWORD localPlayerAddress = *localPlayer;
-
-	MessageBox(NULL, L"Com Object Function Called 3", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
 	uint32_t* health = (uint32_t*)(localPlayerAddress + 0xEC);
-
-	MessageBox(NULL, L"Com Object Function Called 4", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
 	uint32_t healthValue = *health;
 
-	MessageBox(NULL, L"Com Object Function Called 5", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
-	std::string s = std::to_string(healthValue);
-
-	MessageBox(NULL, L"Com Object Function Called 6", L"COMServer", MB_OK | MB_SETFOREGROUND);
-
-	std::wstring stemp = std::wstring(s.begin(), s.end());
-	MessageBox(NULL, stemp.c_str(), L"COMServer", MB_OK | MB_SETFOREGROUND);
+	debugMessage(std::to_string(healthValue));
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
