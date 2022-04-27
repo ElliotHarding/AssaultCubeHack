@@ -83,7 +83,7 @@ void hackThread()
 	MessageBox(NULL, L"Com Object Function Called", L"COMServer", MB_OK | MB_SETFOREGROUND);
 
 	//Get local player & their health
-	DWORD* localPlayer = (DWORD*)(applicationBaseAddress + 0x0017E254);
+	DWORD* localPlayer = (DWORD*)(applicationBaseAddress + 0x0018AC00);
 	MessageBox(NULL, L"Com Object Function Called 2", L"COMServer", MB_OK | MB_SETFOREGROUND);
 
 	DWORD localPlayerAddress = *localPlayer;

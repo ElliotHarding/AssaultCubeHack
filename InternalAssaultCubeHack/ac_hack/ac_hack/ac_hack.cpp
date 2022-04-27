@@ -6,7 +6,7 @@
 #include <tlhelp32.h>
 #include <psapi.h>
 
-static int cStaticPlayerPointerAddress = 0x0017E254;
+static int cStaticPlayerPointerAddress = 0x0017E254; //0x0018AC00 alt 254 seems not loaded at start...
 static int cStaticHealthOffset = 0xEC;
 
 HANDLE GetProcessByName(const std::wstring& processName)
