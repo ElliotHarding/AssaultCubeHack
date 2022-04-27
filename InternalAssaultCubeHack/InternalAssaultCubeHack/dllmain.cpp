@@ -45,9 +45,13 @@ void hackThread()
 	DWORD* localPlayer = (DWORD*)0x0017E254;
 	MessageBox(NULL, L"Com Object Function Called 2", L"COMServer", MB_OK | MB_SETFOREGROUND);
 
-	int* health = (int*)(*localPlayer + 0xEC);
+	int localPlayerAddress = *localPlayer;
 
 	MessageBox(NULL, L"Com Object Function Called 3", L"COMServer", MB_OK | MB_SETFOREGROUND);
+
+	int* health = (int*)(localPlayerAddress + 0xEC);
+
+	MessageBox(NULL, L"Com Object Function Called 4", L"COMServer", MB_OK | MB_SETFOREGROUND);
 
 	std::string s = std::to_string(*health);
 	std::wstring stemp = std::wstring(s.begin(), s.end());
