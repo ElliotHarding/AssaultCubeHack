@@ -14,15 +14,17 @@ int main()
 		if (process != NULL)
 		{
 			char dllName[MAX_PATH];
-			GetFullPathNameA("dllmain.dll", MAX_PATH, dllName, NULL);
+			GetFullPathNameA("InternalAssaultCubeHack.dll", MAX_PATH, dllName, NULL);
 			LPVOID loadLib = (LPVOID)GetProcAddress(GetModuleHandle(L"kernel32.dll"), "LoadLibraryA");
-			LPVOID remoteString = (LPVOID)VirtualAllocEx(process, NULL, strlen(dllName), MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+			LPVOID remoteString = (LPVOID)VirtualAllocEx(process, NULL, strlen(dllName), /*MEM_RESERVE |*/ MEM_COMMIT, PAGE_READWRITE);
 			if (WriteProcessMemory(process, remoteString, dllName, strlen(dllName), NULL))
 			{
 				HANDLE h = CreateRemoteThread(process, NULL, NULL, (LPTHREAD_START_ROUTINE)loadLib, (LPVOID)remoteString, NULL, NULL);
 				std::cout << "Succeeded";
+				CloseHandle(process);
 				return 0;
 			}
+			CloseHandle(process);
 		}
 	}
 
