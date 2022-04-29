@@ -185,22 +185,22 @@ int main()
 		}
 
 		unsigned int homePtrAddress = localPlayerLocation + cStaticHomePtrOffset_fromPlayer;
-		UINT_PTR pHome = 0;
-		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(homePtrAddress), pHome))
+		DWORD pHome = 0;
+		if (!readMemory<DWORD>(pHandle, (LPCVOID)(homePtrAddress), pHome))
 		{
 			continue;
 		}
 
 		unsigned int homePropPtrAddress = pHome + cStaticHomePropPtrOffset_fromHome;
-		UINT_PTR pHomeProp = 0;
-		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(homePropPtrAddress), pHomeProp))
+		DWORD pHomeProp = 0;
+		if (!readMemory<DWORD>(pHandle, (LPCVOID)(homePropPtrAddress), pHomeProp))
 		{
 			continue;
 		}
 
 		unsigned int botListPtrAddress = pHomeProp + cStaticBotListPtrOffset_fromHomeProp;
-		UINT_PTR pBotList = 0;
-		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(botListPtrAddress), pBotList))
+		DWORD pBotList = 0;
+		if (!readMemory<DWORD>(pHandle, (LPCVOID)(botListPtrAddress), pBotList))
 		{
 			continue;
 		}
@@ -211,8 +211,8 @@ int main()
 		{
 			botPtrAddress += cStaticBotOffsetInc_fromBotList;
 
-			UINT_PTR pBot = 0;
-			if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(botPtrAddress), pBot))
+			DWORD pBot = 0;
+			if (!readMemory<DWORD>(pHandle, (LPCVOID)(botPtrAddress), pBot))
 			{
 				continue;
 			}
