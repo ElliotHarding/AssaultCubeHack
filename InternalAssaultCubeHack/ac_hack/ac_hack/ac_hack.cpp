@@ -15,6 +15,14 @@ player ent + 0458
 		+ 0004 --> ptr to list???
 			+ 0004 (bot)
 				+ 00EC (Health)
+				+ 0388 (float may be location) 109
+				+ 038C (float may be location) 4.5
+				+ 0390 (float may be location) 82
+				+ 0394 (float may be location) 166
+				+ 0398 (float may be location) 11.5
+				+ 039C (float may be location) 160
+				+ 03A0 (float may be location) 75
+				+ 03A4 (float may be location) 3
 			+ 0008 (bot)
 			+ 000C (bot)
 			+ 0010 (bot)
