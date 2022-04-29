@@ -8,9 +8,31 @@
 #include <chrono>
 #include <thread>
 
+/*
+player ent + 0458
+	+ 001c
+		+ 0000 --> player ent again
+		+ 0004 --> ptr to list???
+			+ 0004 (bot)
+				+ 00EC (Health)
+			+ 0008 (bot)
+			+ 000C (bot)
+			+ 0010 (bot)
+			...
+			+ 005C (bot)
+*/
+
 static int cStaticPlayerPointerAddress = 0x0018AC00; //0x0018AC00 alt 254 seems not loaded at start...
 static int cStaticHealthOffset = 0xEC;
 static int cStaticAmmoOffset = 0x140;
+static int cStaticPlayerPosXoffset = 0x4; //Type float
+static int cStaticPlayerPosXoffset2 = 0x28; //Type float
+static int cStaticPlayerPosYoffset = 0x8; //Type float
+static int cStaticPlayerPosYoffset2 = 0x2C; //Type float
+static int cStaticPlayerPosZoffset = 0xC; //Type float
+static int cStaticPlayerPosZoffset2 = 0x50; //Type float
+static int cStaticPlayerGranadeOffset = 0x144; //Type 4bytes
+static int cStaticPlayerPistolAmmoOffset = 0x12C; //Type 4bytes
 
 HANDLE GetProcessByName(const std::wstring& processName)
 {
