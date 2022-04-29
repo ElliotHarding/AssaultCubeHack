@@ -9,10 +9,10 @@
 #include <thread>
 
 /*
-player ent + 0458
-	+ 001c
-		+ 0000 --> player ent again
-		+ 0004 --> ptr to list???
+player ent + 0458 ptr
+	+ 001c ptr
+		+ 0000 ptr -->  player ent again
+		+ 0004 ptr --> to list???
 			+ 0004 (bot)
 				+ 00EC (Health)
 				+ 0388 (float may be location) 109
@@ -29,6 +29,13 @@ player ent + 0458
 			...
 			+ 005C (bot)
 */
+
+static int cStaticHomePtrOffset_fromPlayer = 0x0458;
+static int cStaticHomePropPtrOffset_fromHome = 0x001C;
+static int cStaticHomePropPlayerPtrOffset_fromHomeProp = 0x0000;
+static int cStaticBotListPtrOffset_fromHomeProp = 0x0004;
+static int cStaticBotOffsetInc_fromBotList = 0x0004;
+static int cStaticBotHealthOffset = 0x00EC;
 
 static int cStaticPlayerPointerAddress = 0x0018AC00; //0x0018AC00 alt 254 seems not loaded at start...
 static int cStaticHealthOffset = 0xEC;
