@@ -184,6 +184,45 @@ int main()
 			continue;
 		}
 
+		unsigned int homePtrAddress = localPlayerLocation + cStaticHomePtrOffset_fromPlayer;
+		UINT_PTR pHome = 0;
+		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(homePtrAddress), pHome))
+		{
+			continue;
+		}
+
+		unsigned int homePropPtrAddress = pHome + cStaticHomePropPtrOffset_fromHome;
+		UINT_PTR pHomeProp = 0;
+		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(homePropPtrAddress), pHomeProp))
+		{
+			continue;
+		}
+
+		unsigned int botListPtrAddress = pHomeProp + cStaticBotListPtrOffset_fromHomeProp;
+		UINT_PTR pBotList = 0;
+		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(botListPtrAddress), pBotList))
+		{
+			continue;
+		}
+
+		const unsigned int newBotHealths = 0;
+		unsigned int botPtrAddress = pBotList;
+		for (int i = 0; i < 12; i++)
+		{
+			botPtrAddress += cStaticBotOffsetInc_fromBotList;
+
+			UINT_PTR pBot = 0;
+			if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(botPtrAddress), pBot))
+			{
+				continue;
+			}
+
+			if (!writeMemory<const unsigned int>(pHandle, (LPVOID)(pBot + cStaticBotHealthOffset), newBotHealths))
+			{
+				continue;
+			}
+		}
+
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}	
 
