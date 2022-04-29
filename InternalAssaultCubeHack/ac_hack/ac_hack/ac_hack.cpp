@@ -5,9 +5,12 @@
 #include <windows.h>
 #include <tlhelp32.h>
 #include <psapi.h>
+#include <chrono>
+#include <thread>
 
-static int cStaticPlayerPointerAddress = 0x0017E254; //0x0018AC00 alt 254 seems not loaded at start...
+static int cStaticPlayerPointerAddress = 0x0018AC00; //0x0018AC00 alt 254 seems not loaded at start...
 static int cStaticHealthOffset = 0xEC;
+static int cStaticAmmoOffset = 0x140;
 
 HANDLE GetProcessByName(const std::wstring& processName)
 {
@@ -120,21 +123,32 @@ int main()
 
 	DWORD applicationBaseAddress = (DWORD)GetModule(L"ac_client.exe", pHandle);
 
-	UINT_PTR localPlayerLocation = 0;
-	if(!readMemory<UINT_PTR>(pHandle, (LPCVOID)(cStaticPlayerPointerAddress + applicationBaseAddress), localPlayerLocation))
+	while (true)
 	{
-		CloseHandle(pHandle);
-		return 0;
-	}
+		UINT_PTR localPlayerLocation = 0;
+		if (!readMemory<UINT_PTR>(pHandle, (LPCVOID)(cStaticPlayerPointerAddress + applicationBaseAddress), localPlayerLocation))
+		{
+			continue;
+		}
 
-	unsigned int healthLocation = localPlayerLocation + cStaticHealthOffset;
-	unsigned int newValue = 300;
+		unsigned int healthLocation = localPlayerLocation + cStaticHealthOffset;
+		unsigned int newHealth = 300;
 
-	if (!writeMemory<unsigned int>(pHandle, (LPVOID)healthLocation, newValue))
-	{
-		CloseHandle(pHandle);
-		return 0;
-	}
+		if (!writeMemory<unsigned int>(pHandle, (LPVOID)healthLocation, newHealth))
+		{
+			continue;
+		}
+
+		unsigned int ammoLocation = localPlayerLocation + cStaticAmmoOffset;
+		unsigned int newAmmo = 300;
+
+		if (!writeMemory<unsigned int>(pHandle, (LPVOID)ammoLocation, newAmmo))
+		{
+			continue;
+		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	}	
 
 	CloseHandle(pHandle);
 	return 0;
